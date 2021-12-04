@@ -815,3 +815,162 @@
 **思路**
 
 ​	当前位置i元素轮转后的位置为（i+k）%n，n为数组长度。可以使用新数组存储轮转后的元素然后将新数组的内容使用assign函数拷贝到原数组中。
+
+2021/12/4（算法基础打卡第三天）
+
+**二刷双指针之移动零，已AC**
+
+**解法一**
+
+​	声明数组，定义两个指针，一个从新声明数组头开始，一个从尾开始；循环原有数组，若遇到非零元素则放到数组头指针指向的位置，向后移动一位头指针；若遇到零，则放到尾指针指向的位置，向前移动尾指针。将移动好位置的数组拷贝到原数组中。
+
+class Solution {
+
+public:
+
+  void moveZeroes(vector<int>& nums) {
+
+​    vector<int> middle(nums.size());
+
+
+
+​    int startIndex = 0;
+
+​    int endIndex = middle.size() - 1;
+
+
+
+​    for(int i = 0;i<nums.size();i++){
+
+​      if(nums[i] == 0){
+
+​        middle[endIndex] = nums[i];
+
+​        endIndex--;
+
+​      }else{
+
+​        middle[startIndex] = nums[i];
+
+​        startIndex++;
+
+​      }
+
+​    }
+
+
+
+​    nums.assign(middle.begin(),middle.end());
+
+  }
+
+};
+
+**解法二**
+
+​	声明快慢指针，循环快指针，如果快指针指向的元素是非零元素，则将此元素赋值给慢指针指向的位置，移动慢指针。从慢指针指向的位置开始循环，将接下来慢指针指向的位置都赋值0。
+
+class Solution {
+
+public:
+
+  void moveZeroes(vector<int>& nums) {
+
+​    int slowIndex = 0;
+
+
+
+​    for(int fastIndex = 0;fastIndex<nums.size();fastIndex++){
+
+​      if(nums[fastIndex]!=0){
+
+​        nums[slowIndex] = nums[fastIndex];
+
+​        slowIndex++;
+
+​      }
+
+​    }
+
+
+
+​    for(slowIndex;slowIndex<nums.size();slowIndex++){
+
+​      nums[slowIndex] = 0;
+
+​    }
+
+  }
+
+};
+
+**两数之和Ⅱ - 输入有序数组**
+
+**题目**
+
+	给定一个已按照 非递减顺序排列  的整数数组 numbers ，请你从数组中找出两个数满足相加之和等于目标数 target 。
+
+函数应该以长度为 2 的整数数组的形式返回这两个数的下标值。numbers 的下标 从 1 开始计数 ，所以答案数组应当满足 1 <= answer[0] < answer[1] <= numbers.length 。
+
+你可以假设每个输入 只对应唯一的答案 ，而且你 不可以 重复使用相同的元素
+
+**思路**
+
+​	声明两个指针，一个从头开始，一个从尾开始，循环数组元素，如果头尾指针指向的元素和大于目标值，向左移动尾指针；如果头尾指针指向的元素和小于目标值，向右移动头指针；如果恰好等于目标值，则将头尾指针各加一后的值push进结果数组。
+
+class Solution {
+
+public:
+
+  vector<int> twoSum(vector<int>& numbers, int target) {
+
+​    vector<int> result; //最终结果数组
+
+
+
+​    int startIndex = 0; //头指针
+
+​    int endIndex = numbers.size() - 1; //尾指针
+
+
+
+​    for(int i = 0;i<numbers.size();i++){
+
+
+
+​      //如果头尾指针指向的元素和大于目标值，则移动尾指针
+
+​      if(numbers[startIndex]+numbers[endIndex]>target){
+
+​        endIndex--;
+
+
+
+​      //如果头尾指针指向的元素和小于目标值，则移动头指针
+
+​      }else if(numbers[startIndex]+numbers[endIndex]<target){
+
+​        startIndex++;
+
+
+
+​      //如果头尾指针指向的元素和等于目标值，将头尾指针push进结果数组中
+
+​      }else{
+
+​        result.push_back(startIndex+1);
+
+​        result.push_back(endIndex+1);
+
+​        break;
+
+​      }
+
+​    }
+
+​    return result;
+
+  }
+
+};
+
