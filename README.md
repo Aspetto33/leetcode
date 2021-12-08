@@ -1025,3 +1025,117 @@ public:
 **思路**
 
 ​	因为排列字符数量不变，因此滑动窗口的固定大小是s1的大小。使用两个数组记录s1大小两个字符串中各个字符的数量，比较两个数组，如果相等返回true，否则，从s1大小开始循环，向记录s2字符的数组中加字符，并移除第一个字符，每次比较两个数组是否相等。
+
+2021/12/8
+
+**图像渲染**
+
+有一幅以二维整数数组表示的图画，每一个整数表示该图画的像素值大小，数值在 0 到 65535 之间。
+
+给你一个坐标 (sr, sc) 表示图像渲染开始的像素值（行 ，列）和一个新的颜色值 newColor，让你重新上色这幅图像。
+
+为了完成上色工作，从初始坐标开始，记录初始坐标的上下左右四个方向上像素值与初始坐标相同的相连像素点，接着再记录这四个方向上符合条件的像素点与他们对应四个方向上像素值与初始坐标相同的相连像素点，……，重复该过程。将所有有记录的像素点的颜色值改为新的颜色值。
+
+最后返回经过上色渲染后的图像。
+
+**思路**
+
+​	广度优先搜索，将一个点的上下左右所有点都搜索一遍。使用两个数组分别记录上下左右点相对于当前点的横纵坐标偏移值，使用队列记录需要变色的点。
+
+**岛屿的最大面积**
+
+class Solution {
+
+public:
+
+  int maxAreaOfIsland(vector<vector<int>>& grid) {
+
+​    int result = 0; //记录结果
+
+
+
+​    //循环遍历矩阵
+
+​    for(int i = 0;i!=grid.size();i++){
+
+​      for(int j = 0;j!=grid[0].size();j++){
+
+​        int cur = 0;  //记录每个岛屿的大小
+
+
+
+​        queue<int> quei;  //存放横坐标
+
+​        queue<int> quej;  //存放纵坐标
+
+
+
+​        quei.push(i);
+
+​        quej.push(j);
+
+
+
+​        //遍历队列，求岛屿大小
+
+​        while(!quei.empty()){
+
+​          int cur_i = quei.front();
+
+​          int cur_j = quej.front();
+
+
+
+​          quei.pop();
+
+​          quej.pop();
+
+
+
+​          grid[cur_i][cur_j] = 0; //用过的点变为0
+
+
+
+​          if(cur_i<0 || cur_i==grid.size() || cur_j<0 || cur_j==grid[0].size() || grid[cur_j][cur_j]!=1){
+
+​            continue;
+
+​          }
+
+
+
+​          cur++;
+
+​          
+
+​          int dx[4] = {1,0,-1,0};
+
+​          int dy[4] = {0,1,0,-1};
+
+​          for(int index = 0;index!=4;i++){
+
+​            int x = cur_i + dx[index];
+
+​            int y = cur_j + dy[index];
+
+
+
+​            quei.push(x);
+
+​            quej.push(y);
+
+​          }
+
+​        }
+
+​        result = max(result,cur);
+
+​      }
+
+​    }
+
+​    return result;
+
+  }
+
+};
