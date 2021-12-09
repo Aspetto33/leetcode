@@ -19,18 +19,25 @@ public:
 class Solution {
 public:
     Node* connect(Node* root) {
-        queue<Node*> que;
-        if(root!=NULL) que.push(root);
-        while(!que.empty()){
-            int size = que.size();
-            for(int i=0;i<size;i++){
-                Node* node = que.front();
-                que.pop();
-                if(i<size-1) node->next = que.front();
-                if(node->left) que.push(node->left);
-                if(node->right) que.push(node->right);
+        //如果root是空的，直接返回空
+        if(root == NULL) return NULL;
+
+        //如果root的左节点不是空的，令左节点的next指针指向右节点
+        if(root->left!=NULL){
+            root->left->next = root->right;
+
+            //如果root的next指针不是空，即root右边还有节点，令root右节点的next指向旁边左节点
+            if(root->next!=NULL){
+                root->right->next = root->next->left;
             }
         }
+
+        //递归左子树
+        connect(root->left);
+
+        //递归右子树
+        connect(root->right);
+
         return root;
     }
 };
