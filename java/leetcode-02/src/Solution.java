@@ -8,32 +8,39 @@ public class Solution {
    }
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 
-        StringBuilder s1 = new StringBuilder();
-        StringBuilder s2 = new StringBuilder();
+        ListNode head = null;
+        ListNode tail = null;
+        int carry = 0;
 
-        while(l1 != null){
-            s1.append(l1.val);
-            l1 = l1.next;
+        while(l1 != null ||l2 != null){
+
+            int n1 = l1 != null ? l1.val : 0;
+            int n2 = l2 != null ? l2.val : 0;
+
+            int sum = n1 + n2 + carry;
+
+            if(head == null){
+                head = tail = new ListNode(sum%10);
+            }
+            else{
+                tail.next = new ListNode(sum%10);
+                tail = tail.next;
+            }
+
+            carry = sum / 10;
+
+            if(l1 != null){
+                l1 = l1.next;
+            }
+
+            if(l2 != null){
+                l2 = l2.next;
+            }
         }
 
-        while(l2 != null){
-            s2.append(l2.val);
-            l2 = l2.next;
+        if(carry > 0){
+            tail.next = new ListNode(carry);
         }
-
-        s1.reverse();
-        s2.reverse();
-
-        int i1 = Integer.getInteger(s1.toString());
-        int i2 = Integer.getInteger(s2.toString());
-
-        int i = i1 + i2;
-        StringBuilder s = new StringBuilder();
-        s.append(i);
-        s.reverse();
-
-        ListNode l = new ListNode();
-
-        while ()
+        return head;
     }
 }
