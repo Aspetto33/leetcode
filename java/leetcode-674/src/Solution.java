@@ -9,7 +9,7 @@ public class Solution {
         }
 
         for(int i = 1;i < nums.length;i++){
-            if(dp[i] > dp[i-1])
+            if(nums[i] > nums[i-1])
                 dp[i] = dp[i-1] + 1;
 
             result = Math.max(result,dp[i]);
